@@ -22,7 +22,7 @@ data "aws_availability_zones" "available_zones" {}
 
 # create internet gateway and attach it to vpc
 resource "aws_internet_gateway" "devops_igw" {
-  vpc_id = var.vpc_devops.id
+  vpc_id = aws_vpc.vpc_devops.id
 }
 
 # create public subnet dans l'availibility zone 1
@@ -93,7 +93,7 @@ resource "aws_subnet" "sn-private_1" {
 
 
 # create private subnet dans l'availibility zone 2
-resource "aws_subnet" "sn-private_1" {
+resource "aws_subnet" "sn-private_2" {
   vpc_id                  = var.vpc-gitlab.id
   cidr_block              = var.sn_private_2_cidr
   availability_zone       = data.aws_availability_zones.available_zones.names[1]
