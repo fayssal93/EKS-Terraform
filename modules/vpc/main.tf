@@ -33,7 +33,7 @@ resource "aws_subnet" "sn_public_1" {
   map_public_ip_on_launch = true
 
    tags = {
-    Name                        = "public_${availability_zone}"
+    Name                        = "sn_public_1"
     "kubernetes.io/cluster/eks" = "shared"
     "kubernetes.io/role/elb"    = 1
   }
@@ -41,13 +41,13 @@ resource "aws_subnet" "sn_public_1" {
 
 # create public subnet dans l'availibility zone 2
 resource "aws_subnet" "sn_public_2" {
-  vpc_id                  = aws_vpc.vpc-gitlab.id
+  vpc_id                  = aws_vpc.vpc_devops.id
   cidr_block              = var.sn_public_2_cidr
   availability_zone       = data.aws_availability_zones.available_zones.names[1]
   map_public_ip_on_launch = true
 
   tags = {
-    Name                        = "public_${availability_zone}"
+    Name                        = "sn_public_2"
     "kubernetes.io/cluster/eks" = "shared"
     "kubernetes.io/role/elb"    = 1
   }
@@ -79,28 +79,27 @@ resource "aws_route_table_association" "public2_sn_rt_tbl_associat" {
 
 # create private subnet dans l'availibility zone 1
 resource "aws_subnet" "sn-private_1" {
-  vpc_id                  = var.vpc-devops.id
+  vpc_id                  = aws_vpc.vpc_devops.id
   cidr_block              = var.sn_private_1_cidr
   availability_zone       = data.aws_availability_zones.available_zones.names[0]
   map_public_ip_on_launch = false
 
   tags = {
-    Name                        = "private_${availability_zone}"
+    Name                        = "sn-private_1"
     "kubernetes.io/cluster/eks" = "shared"
     "kubernetes.io/role/elb"    = 1
   }
 }
 
-
 # create private subnet dans l'availibility zone 2
 resource "aws_subnet" "sn-private_2" {
-  vpc_id                  = var.vpc-gitlab.id
+  vpc_id                  = aws_vpc.vpc_devops.id
   cidr_block              = var.sn_private_2_cidr
   availability_zone       = data.aws_availability_zones.available_zones.names[1]
   map_public_ip_on_launch = false
 
   tags = {
-    Name                        = "private_${availability_zone}"
+    Name                        = "sn-private_2"
     "kubernetes.io/cluster/eks" = "shared"
     "kubernetes.io/role/elb"    = 1
   }

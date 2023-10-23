@@ -16,31 +16,33 @@ terraform {
 }  
 
 module "vpc" {
-  source                   = "../modules/vpc"
-  region                   = var.region
-  vpc-gitlab               = var.vpc-gitlab
-  vpc_cidr                 = var.vpc_cidr
-  sn-gitlab-public-a_cidr  = var.sn-gitlab-public-a_cidr
-  sn-gitlab-public-b_cidr  = var.sn-gitlab-public-b_cidr
-  sn-gitlab-private-a_cidr = var.sn-gitlab-private-a_cidr
-  sn-gitlab-private-b_cidr = var.sn-gitlab-private-b_cidr
+  source                    = "../modules/vpc"
+  region                    = var.region  
+  vpc_devops                = var.vpc_devops
+  vpc_cidr                  = var.vpc_cidr
+  sn_public_1_cidr          = var.sn_public_1_cidr
+  sn_public_2_cidr          = var.sn_public_2_cidr
+  sn_private_1_cidr         = var.sn_private_1_cidr 
+  sn_private_2_cidr         = var.sn_private_2_cidr  
 }
 
-module "nat_gateway" {
-  source               = "../modules/nat_gateway"
-  subnet_id            = module.vpc.sn-gitlab-public-a_cidr
-  vpc_id               = module.vpc.vpc_id
-  rt_gitlab_private_id = module.vpc.rt_gitlab_private_id
-  rt_gitlab_public_id  = module.vpc.rt_gitlab_public_id
-  internet_gateway_id  = module.vpc.internet_gateway_id
+module "nat" {
+  source                = "../modules/nat"
+  sn_public_1_id        = module.vpc.sn_public_1_id
+  sn_public_2_id        = module.vpc.sn_public_2_id
+  rt_devops_private1_id = module.vpc.rt_devops_private1_id
+  rt_devops_private2_id = module.vpc.rt_devops_private2_id
+  rt_devops_public_id   = module.vpc.rt_devops_public_id
+  internet_gateway_id   = module.vpc.internet_gateway_id
 
 }
-module "ec2_instance" {
-  source = "../modules/ec2"
-
+module "eks" {
+  source = "../modules/eks"
+  sn_private_1_id    = module.vpc.sn_private_1_id
+  sn_private_2_id    = module.vpc.sn_private_1_id
   instance_type      = var.instance_type
-  ami_id             = var.ami_id
-  subnet_id          = module.vpc.sn-gitlab-public-a_cidr
-  key_name           = var.key_name
-  security_group_ids = [module.nat_gateway.gitlab_security_group_id]
+  capacity_type      = var.capacity_type   
+  ami_type           = var.ami_type
+  sn_public_1_id     = module.vpc.sn_public_1_id
+  sn_public_2_id     = module.vpc.sn_public_2_id
 }

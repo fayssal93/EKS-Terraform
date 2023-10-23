@@ -39,15 +39,15 @@ resource "aws_route" "private1_subnet_route"{
 }
 
 # ajout d'une route dans la table de route prive 2 qui envoie le traffic vers la nat gateway 2
-resource "aws_route" "private1_subnet_route"{
+resource "aws_route" "private2_subnet_route"{
     route_table_id = var.rt_devops_private1_id
     destination_cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gw1.id
+    nat_gateway_id = aws_nat_gateway.nat_gw2.id
 }
 
 # ajout d'une route dans la table de route public qui envoie le traffic vers internet gateway
-resource "aws_route" "private2_subnet_route"{
-    route_table_id = var.rt_devops_public
+resource "aws_route" "public_subnet_route"{
+    route_table_id = var.rt_devops_public_id
     destination_cidr_block = "0.0.0.0/0"
     gateway_id = var.internet_gateway_id
 }
