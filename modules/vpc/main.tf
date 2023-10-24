@@ -56,7 +56,7 @@ resource "aws_subnet" "sn_public_2" {
 
 # create route table public
 resource "aws_route_table" "rt_devops_public" {
-  vpc_id = var.vpc_devops.id
+  vpc_id = aws_vpc.vpc_devops.id
   #ajouter une route public vers internet gateway dans le module nat
   tags = {
     Name = "rt_devops_public"
@@ -107,7 +107,7 @@ resource "aws_subnet" "sn-private_2" {
 
 # create route table prive 1 
 resource "aws_route_table" "rt_devops_private1" {
-  vpc_id = var.vpc_devops.id
+  vpc_id = aws_vpc.vpc_devops.id
   
   #ajouter une route de cette table vers la nat gateway dans le module nat
   tags = {
@@ -118,7 +118,7 @@ resource "aws_route_table" "rt_devops_private1" {
 
 # create route table prive 2
 resource "aws_route_table" "rt_devops_private2" {
-  vpc_id = var.vpc_devops.id
+  vpc_id = aws_vpc.vpc_devops.id
   #ajouter une route de cette table vers la nat gateway dans le module nat
 
    tags = {
