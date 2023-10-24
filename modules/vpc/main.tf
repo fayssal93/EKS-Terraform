@@ -117,15 +117,15 @@ resource "aws_route_table" "rt_devops_private1" {
 }
 
 # create route table prive 2
-resource "aws_route_table" "rt_devops_private2" {
-  vpc_id = aws_vpc.vpc_devops.id
-  #ajouter une route de cette table vers la nat gateway dans le module nat
+# resource "aws_route_table" "rt_devops_private2" {
+#   vpc_id = aws_vpc.vpc_devops.id
+#   #ajouter une route de cette table vers la nat gateway dans le module nat
 
-   tags = {
-    Name = "rt_devops_private2"
-  }
+#    tags = {
+#     Name = "rt_devops_private2"
+#   }
 
-}
+# }
 
 # association de la table de route prive1 au subnet prive 1  
 resource "aws_route_table_association" "private1_sn_rt_tbl_associat" {
