@@ -36,7 +36,7 @@ resource "aws_eks_cluster" "eks" {
 
   role_arn = aws_iam_role.eks_cluster.arn
 
-  version = "1.24"
+  version = "1.27"
 
   vpc_config {
 
